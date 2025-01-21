@@ -1,32 +1,16 @@
-from fastapi import APIRouter
-from ..schemas import CreateTask, UpdateTask
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
+from app.backend.db import Base
 
-router = APIRouter(
-    prefix="/task",
-    tags=["task"],
-)
+class Task(Base):
+    __tablename__ = 'tasks'
 
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String)
+    content = Column(String)
+    priority = Column(Integer, default=0)
+    completed = Column(Boolean, default=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
+    slug = Column(String, unique=True, index=True)
 
-@router.get("/")
-def all_tasks():
-    pass
-
-
-@router.get("/{task_id}")
-def task_by_id(task_id: int):
-    pass
-
-
-@router.post("/create")
-def create_task(task: CreateTask):
-    pass
-
-
-@router.put("/update/{task_id}")
-def update_task(task_id: int, task: UpdateTask):
-    pass
-
-
-@router.delete("/delete/{task_id}")
-def delete_task(task_id: int):
-    pass
+    user = relationship("User", back_populates="tasks")
