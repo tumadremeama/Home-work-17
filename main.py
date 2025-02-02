@@ -4,10 +4,8 @@ from app.routers import user, task
 
 app = FastAPI()
 
-# Создание таблиц
 Base.metadata.create_all(bind=engine)
 
-# Подключение роутеров
 app.include_router(user.router)
 app.include_router(task.router)
 
