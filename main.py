@@ -1,15 +1,17 @@
 from fastapi import FastAPI
-from app.backend.db import engine, Base
-from app.models.user import User
-from app.models.task import Task
-
+from app.backend.db import Base, engine
+from app.routers import user, task
 
 app = FastAPI()
 
-
+# Создание таблиц
 Base.metadata.create_all(bind=engine)
+
+# Подключение роутеров
+app.include_router(user.router)
+app.include_router(task.router)
 
 
 @app.get("/")
-def root():
+def read_root():
     return {"message": "Welcome to Taskmanager"}

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class CreateUser(BaseModel):
@@ -17,11 +18,11 @@ class UpdateUser(BaseModel):
 class CreateTask(BaseModel):
     title: str
     content: str
-    priority: int
+    priority: Optional[int] = 0
 
 
 class UpdateTask(BaseModel):
     title: str
     content: str
-    priority: int
+    priority: Optional[int] = 0
 
